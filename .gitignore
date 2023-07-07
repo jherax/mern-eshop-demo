@@ -41,6 +41,9 @@ logs
 .env.*
 .envrc
 
+# docker
+docker/**/.volumes/data
+
 # vercel
 .vercel
 
