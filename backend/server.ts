@@ -1,16 +1,23 @@
-import express, {type Request, type Response} from 'express';
+import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
+import cors from 'cors';
+import express from 'express';
 
 import config from './config/server.cfg';
 import connectDb from './db/mongodb';
+import registerRoutes from './routes';
 
 const app = express();
 const appPort = config.app.port;
 
 connectDb(app);
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('MongoDB + Express + TypeScript Server');
-});
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(cookieParser());
+
+registerRoutes(app);
 
 app.on('ready', () => {
   app.listen(appPort, () => {
