@@ -2,6 +2,45 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "TS: Debug App",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["--nolazy", "-r", "ts-node/register/transpile-only"],
+      "args": [],
+      "program": "backend/src/server.ts",
+      "cwd": "${workspaceFolder}",
+      "internalConsoleOptions": "openOnSessionStart",
+      "skipFiles": ["<node_internals>/**", "node_modules/**"],
+      "env": {
+        "TS_NODE_COMPILER_OPTIONS": "{\"module\":\"commonjs\"}"
+      }
+    },
+    {
+      "name": "TS: Current File",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["--nolazy", "-r", "ts-node/register/transpile-only"],
+      "args": [],
+      "program": "${workspaceFolder}/${relativeFile}",
+      "cwd": "${workspaceFolder}",
+      "internalConsoleOptions": "openOnSessionStart",
+      "skipFiles": ["<node_internals>/**", "node_modules/**"],
+      "env": {
+        "TS_NODE_COMPILER_OPTIONS": "{\"module\":\"commonjs\"}"
+      }
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Node: Current File",
+      "program": "${workspaceFolder}/${relativeFile}",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "args": []
+    },
+    {
       "type": "node",
       "request": "launch",
       "name": "Jest: Current File",
@@ -20,30 +59,6 @@
       "console": "integratedTerminal",
       "windows": {
         "program": "${workspaceFolder}/node_modules/jest/bin/jest"
-      }
-    },
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "Node: Current File",
-      "program": "${workspaceFolder}/${relativeFile}",
-      "cwd": "${workspaceFolder}",
-      "console": "integratedTerminal",
-      "args": []
-    },
-    {
-      "name": "TS: Current File",
-      "type": "node",
-      "request": "launch",
-      "runtimeExecutable": "node",
-      "runtimeArgs": ["--nolazy", "-r", "ts-node/register/transpile-only"],
-      "args": [],
-      "program": "${workspaceFolder}/${relativeFile}",
-      "cwd": "${workspaceFolder}",
-      "internalConsoleOptions": "openOnSessionStart",
-      "skipFiles": ["<node_internals>/**", "node_modules/**"],
-      "env": {
-        "TS_NODE_COMPILER_OPTIONS": "{\"module\":\"commonjs\"}"
       }
     }
   ]

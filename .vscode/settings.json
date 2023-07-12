@@ -42,14 +42,13 @@
     "**/CVS": true,
     "**/.DS_Store": true,
     "**/.cache": true,
-    "package": true,
-    "node_modules": true
+    "**/node_modules/": true
   },
   "files.watcherExclude": {
     "**/*.snap": true,
     "**/.git/objects/**": true,
     "**/node_modules/**": true,
-    "/package-lock.json": true,
+    "**/package-lock.json": true,
     "/.cache/": true,
     "/public": true,
     "/build": true,
@@ -59,7 +58,7 @@
   "search.exclude": {
     "**/*.snap": true,
     "**/node_modules/**": true,
-    "/package-lock.json": true,
+    "**/package-lock.json": true,
     "/.cache/": true,
     "/public": true,
     "/build": true,
