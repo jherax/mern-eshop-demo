@@ -6,6 +6,7 @@ const config = {
   app: {
     host: process.env.APP_HOST,
     port: process.env.APP_PORT,
+    images: '/public/images/',
   },
   db: {
     host: process.env.DB_HOST,
