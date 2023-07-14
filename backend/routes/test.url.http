@@ -1,4 +1,4 @@
-POST http://localhost:3000/api/v1/products?t={{$timestamp}}
+POST http://localhost:3004/api/v1/products?t={{$timestamp}}
 Content-Type: application/json
 User-Agent: Aldous-Huxley-v1.0
 
@@ -8,3 +8,8 @@ User-Agent: Aldous-Huxley-v1.0
   "unitaryPrice": 19.9,
   "description": "Ravening aliens strike at a desperate Imperium in the new edition of Warhammer 40,000."
 }
+
+# ---
+
+GET http://localhost:3004/api/v1/products?t={{$timestamp}}
+Content-Type: application/json

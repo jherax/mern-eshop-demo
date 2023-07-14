@@ -1,3 +1,5 @@
+import {IProduct} from './Product';
+
 declare global {
   export type JSONValue =
     | string
@@ -23,6 +25,8 @@ declare global {
       stack: string;
     };
   }
+
+  export {IProduct};
 }
 
 // THIS IS NECESSARY

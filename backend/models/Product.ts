@@ -1,13 +1,20 @@
 import mongoose from 'mongoose';
 
-const Schema = mongoose.Schema;
+import config from '../config/server.cfg';
 
-const ProductSchema = new Schema(
+/**
+ * @see https://mongoosejs.com/docs/typescript/statics-and-methods.html
+ */
+const ProductSchema = new mongoose.Schema<
+  IProduct,
+  ProductModel,
+  IProductMethods
+>(
   {
     name: String,
     size: String,
     unitaryPrice: Number,
-    imgUrl: String,
+    imgUrl: {type: String, required: false},
     description: String,
   },
   {
@@ -15,4 +22,13 @@ const ProductSchema = new Schema(
   },
 );
 
-export default mongoose.model('Products', ProductSchema);
+const app = config.app;
+
+ProductSchema.methods.setImgUrl = function setImgUrl(filename: string) {
+  // sets the public routed URL, not the absolute path
+  this.imgUrl = `//${app.host}:${app.port}/public/${filename}`;
+};
+
+const Product = mongoose.model('Products', ProductSchema);
+
+export default Product;
