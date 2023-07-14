@@ -9,6 +9,7 @@ import registerRoutes from './routes';
 
 const app = express();
 const appPort = config.app.port;
+const appHost = config.app.host;
 
 connectDb(app);
 
@@ -21,6 +22,6 @@ registerRoutes(app);
 
 app.on('ready', () => {
   app.listen(appPort, () => {
-    console.info(`⚡️ Express running at http://localhost:${appPort}`);
+    console.info(`⚡️ Express running at http://${appHost}:${appPort}`);
   });
 });

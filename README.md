@@ -7,7 +7,7 @@ Make sure to set the env variables. For local environment you can create a
 
 ```bash
 APP_HOST=localhost
-APP_PORT=3000
+APP_PORT=3004
 ```
 
 ## Running the server

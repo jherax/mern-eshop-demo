@@ -1,5 +1,6 @@
-import type {Express, Request, Response} from 'express';
+import express, {type Express, type Request, type Response} from 'express';
 
+import config from '../config/server.cfg';
 import productRoutes from './products';
 
 /**
@@ -12,4 +13,6 @@ export default function routes(app: Express) {
   app.route('/').get((req: Request, res: Response) => {
     res.send('MongoDB + Express + TypeScript Server');
   });
+
+  app.use('/public', express.static(process.cwd() + config.app.images));
 }
