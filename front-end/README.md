@@ -3,6 +3,13 @@
 This project was bootstrapped with
 [Create React App](https://github.com/facebook/create-react-app).
 
+Create an `.env` file under the `front-end` root directory, and add the
+following variables:
+
+```bash
+REACT_APP_API_BASE_URL=//localhost:3004/api/v1
+```
+
 ## Available Scripts
 
 In the project directory, you can run:
