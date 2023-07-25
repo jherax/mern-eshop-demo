@@ -1,15 +1,30 @@
-import {useState} from 'react';
-import {Modal} from 'react-bulma-components';
+import {useEffect, useState} from 'react';
+import {Container, Modal, Section} from 'react-bulma-components';
 
 import Header from './Header';
 import AddButton from './AddButton';
 import ListProducts from './ListProducts';
 import ProductForm from './ProductForm';
-import {saveProduct} from '../services';
+import {getProducts, saveProduct} from '../services';
 
 function ProductLayout() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [refreshCount, setRefreshCount] = useState(0);
+  const [isListLoading, setIsListLoading] = useState<boolean>(true);
+  const [productsList, setProductsList] = useState<IProduct[]>([]);
+
+  const loadProducts = async () => {
+    const products = await getProducts();
+    setProductsList(products);
+    setIsListLoading(false);
+    console.log('getProducts:', products);
+  };
+
+  // ComponentDidMount
+  useEffect(() => {
+    // useEffect doesn't allow an async function on its body
+    // that's why we wrapped the async/await call as an IIFE
+    loadProducts();
+  }, []);
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -21,16 +36,24 @@ function ProductLayout() {
 
   const onSubmitForm = (data: ProductFormValues) => {
     saveProduct(data).then(product => {
-      setRefreshCount(refreshCount + 1);
       setIsModalOpen(false);
+      const products = [...productsList, product];
+      setProductsList(products);
     });
   };
 
   return (
-    <>
-      <Header title='Products Catalog'></Header>
-      <AddButton onClick={onClickAddButton}></AddButton>
-      <ListProducts refreshCount={refreshCount}></ListProducts>
+    <Container>
+      <Section>
+        <Header title='Products Catalog'></Header>
+        <AddButton onClick={onClickAddButton}></AddButton>
+      </Section>
+      <Section>
+        <ListProducts
+          products={productsList}
+          isLoading={isListLoading}
+        ></ListProducts>
+      </Section>
       <Modal show={isModalOpen} onClose={closeModal}>
         <Modal.Card>
           <Modal.Card.Header showClose={false}>
@@ -44,7 +67,7 @@ function ProductLayout() {
           </Modal.Card.Body>
         </Modal.Card>
       </Modal>
-    </>
+    </Container>
   );
 }
 

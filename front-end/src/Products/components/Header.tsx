@@ -1,13 +1,10 @@
-import React from 'react';
-import {Container, Section} from 'react-bulma-components';
+import {Container} from 'react-bulma-components';
 
 function Header({title}: HeaderProps) {
   return (
-    <Section>
-      <Container>
-        <h1 className='title has-text-centered'>{title}</h1>
-      </Container>
-    </Section>
+    <Container>
+      <h1 className='title has-text-centered'>{title}</h1>
+    </Container>
   );
 }
 

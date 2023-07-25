@@ -1,25 +1,7 @@
-import {useEffect, useState} from 'react';
-import {Box, Section, Table} from 'react-bulma-components';
-
-import {getProducts} from '../services';
+import {Card, Columns, Content, Heading, Section} from 'react-bulma-components';
 import Loading from './Loading';
 
-function ListProducts({refreshCount}: ListProductsProps) {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [products, setProducts] = useState<IProduct[]>([]);
-
-  // ComponentDidMount
-  useEffect(() => {
-    // useEffect doesn't allow an async function on its body
-    // that's why we wrapped the async/await call as an IIFE
-    (async () => {
-      const data = await getProducts();
-      setProducts(data);
-      setIsLoading(false);
-      console.log('getProducts:', data);
-    })();
-  }, [refreshCount]);
-
+function ListProducts({products, isLoading}: ListProductsProps) {
   // component for loading
   if (isLoading) {
     return <Loading />;
@@ -28,54 +10,52 @@ function ListProducts({refreshCount}: ListProductsProps) {
   if (!products.length) {
     return (
       <Section>
-        <h3 className='subtitle has-text-centered'>You don't have products</h3>
+        <h3 className='subtitle has-text-centered'>
+          There are no products to list
+        </h3>
       </Section>
     );
   }
   // component to list elements
   return (
-    <Section>
-      <Box>
-        <Table>
-          <thead>
-            <tr>
-              <th>Product Name</th>
-              <th>Size</th>
-              <th>Unitary Price $</th>
-              <th>Description</th>
-              <th>Preview</th>
-            </tr>
-          </thead>
-          <tbody>
-            {products.map((item, key) => {
-              return (
-                <tr key={key}>
-                  <td>{item.name}</td>
-                  <td>{item.size}</td>
-                  <td>{item.unitaryPrice}</td>
-                  <td>{item.description}</td>
-                  <td>
-                    <a
-                      href={item.imgUrl}
-                      title={item.name}
-                      target='_blank'
-                      rel='noreferrer'
-                    >
-                      {item.imgUrl}
-                    </a>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </Table>
-      </Box>
-    </Section>
+    <Columns>
+      {products.map((item, key) => {
+        return (
+          <Columns.Column key={key} size={3}>
+            <Card>
+              <Card.Image
+                size='4by5'
+                src={item.imgUrl}
+                alt={getAltText(item.imgUrl)}
+              />
+              <Card.Content>
+                <Content>
+                  <Heading size={4}>{item.name}</Heading>
+                  <Heading subtitle size={6}>
+                    Price: USD ${item.unitaryPrice}
+                  </Heading>
+                  <Heading subtitle size={6}>
+                    Size: {item.size}
+                  </Heading>
+                  <p>{item.description}</p>
+                </Content>
+              </Card.Content>
+            </Card>
+          </Columns.Column>
+        );
+      })}
+    </Columns>
   );
+}
+
+function getAltText(src: string | undefined) {
+  if (!src) return 'No image available';
+  return '';
 }
 
 export default ListProducts;
 
 interface ListProductsProps {
-  refreshCount: number;
+  products: IProduct[];
+  isLoading: boolean;
 }
