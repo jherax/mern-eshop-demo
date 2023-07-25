@@ -17,4 +17,12 @@ declare global {
   }
 
   type ProductModel = Model<IProduct, Record<string, never>, IProductMethods>;
+
+  type ProductFormValues = {
+    productName: string;
+    productSize: string;
+    unitaryPrice: string;
+    description: string;
+    imageFile?: File;
+  };
 }

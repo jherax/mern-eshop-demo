@@ -4,7 +4,7 @@ import {Button, Form} from 'react-bulma-components';
 const {Field, Control, Label, Input, Textarea} = Form;
 
 function ProductForm(props: ProductFormProps) {
-  const [formValues, setFormValues] = useState({
+  const [formValues, setFormValues] = useState<ProductFormValues>({
     productName: '',
     productSize: '',
     unitaryPrice: '',
@@ -21,11 +21,12 @@ function ProductForm(props: ProductFormProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // const formData = new FormData(e.currentTarget);
+    const data = {...formValues};
     const currentFile = fileInputRef?.current;
     if (currentFile?.files?.length) {
-      // console.log(currentFile.files[0].name);
+      data.imageFile = currentFile.files[0];
     }
+    props.onSubmitForm(data);
   };
 
   /** @see https://react-bulma.dev/en/storybook */
@@ -113,5 +114,6 @@ function ProductForm(props: ProductFormProps) {
 export default ProductForm;
 
 export interface ProductFormProps {
+  onSubmitForm: (data: ProductFormValues) => void;
   onCancelForm: () => void;
 }

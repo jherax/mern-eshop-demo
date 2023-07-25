@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {Box, Section, Table} from 'react-bulma-components';
 
-import getProducts from '../services';
+import {getProducts} from '../services';
 import Loading from './Loading';
 
-function ListProducts() {
+function ListProducts({refreshCount}: ListProductsProps) {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [products, setProducts] = useState<IProduct[]>([]);
 
@@ -16,8 +16,9 @@ function ListProducts() {
       const data = await getProducts();
       setProducts(data);
       setIsLoading(false);
+      console.log('getProducts:', data);
     })();
-  }, []);
+  }, [refreshCount]);
 
   // component for loading
   if (isLoading) {
@@ -74,3 +75,7 @@ function ListProducts() {
 }
 
 export default ListProducts;
+
+interface ListProductsProps {
+  refreshCount: number;
+}

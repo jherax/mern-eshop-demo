@@ -1,4 +1,4 @@
-import {IProduct} from './Product';
+import {IProduct, ProductFormValues} from './Product';
 
 declare global {
   export type JSONValue =
@@ -26,7 +26,7 @@ declare global {
     };
   }
 
-  export {IProduct};
+  export {IProduct, ProductFormValues};
 }
 
 // THIS IS NECESSARY
