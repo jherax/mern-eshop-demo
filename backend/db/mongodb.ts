@@ -1,4 +1,4 @@
-import type {Express} from 'express';
+import {type Server} from 'http';
 import mongoose from 'mongoose';
 
 import config from '../config/server.cfg';
@@ -8,7 +8,8 @@ import config from '../config/server.cfg';
  * @see https://mongoosejs.com/docs/5.x/docs/connections.html
  */
 
-let intents = 0;
+let intents = 1;
+let timerId: NodeJS.Timeout;
 const MAX_TRIES = 10;
 
 const options = {
@@ -17,7 +18,7 @@ const options = {
   // maxPoolSize: 10, // Maintain up to 10 socket connections
 };
 
-async function connectDb(app: Express) {
+async function connectDb(server: Server) {
   const {host, port, database, username, password} = config.db;
   const uri = `mongodb://${username}:${password}@${host}:${port}/${database}`;
   mongoose.Promise = global.Promise;
@@ -26,8 +27,9 @@ async function connectDb(app: Express) {
     mongoose
       .connect(uri, options)
       .then(() => {
+        clearTimeout(timerId);
         console.info('🍃 MongoDB is connected');
-        app.emit('ready');
+        server.emit('ready');
       })
       .catch(err => {
         if (intents === MAX_TRIES) {
@@ -35,7 +37,7 @@ async function connectDb(app: Express) {
           process.exit(0);
         }
         console.info('🍃 MongoDB connection failed, retry in 2 secs.\n', err);
-        setTimeout(connectWithRetry, 2000);
+        timerId = setTimeout(connectWithRetry, 2000);
         intents += 1;
       });
   };
