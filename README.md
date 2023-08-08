@@ -33,7 +33,7 @@ npm run prepare
 Add a hook:
 
 ```bash
-npx husky add .husky/pre-commit "eslint and prettier commands"
+npx husky add .husky/pre-commit "npx lint-staged"
 npx husky add .husky/post-commit "git update-index -g"
 npx husky add .husky/commit-msg 'npx --no -- commitlint --edit ${1}'
 git add .husky/
