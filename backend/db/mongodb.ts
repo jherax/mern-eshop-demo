@@ -36,7 +36,8 @@ async function connectDb(server: Server) {
           console.error(err);
           process.exit(0);
         }
-        console.info('🍃 MongoDB connection failed, retry in 2 secs.\n', err);
+        console.info('🍃 MongoDB connection failed, retry in 2 secs.');
+        console.error(err);
         timerId = setTimeout(connectWithRetry, 2000);
         intents += 1;
       });

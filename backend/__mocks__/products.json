@@ -1,0 +1,24 @@
+[
+  {
+    "_id": "64bff7ec378052daf8f0ef89",
+    "name": "Brood War",
+    "size": "M",
+    "unitaryPrice": 15.99,
+    "description": "StarCraft is a military science fiction media franchise created by Chris Metzen and James Phinney and owned by Blizzard Entertainment.",
+    "imgUrl": "//localhost:3004/public/imgfile-1690302444853-410496099.jpg",
+    "createdAt": "2023-07-25T16:27:24.876Z",
+    "updatedAt": "2023-07-25T16:27:24.876Z",
+    "__v": 0
+  },
+  {
+    "_id": "64c014b40d3d6fc8c0b0f772",
+    "name": "Warhammer 40,000",
+    "size": "M",
+    "unitaryPrice": 32.99,
+    "description": "Warhammer 40,000 takes place in the grim darkness of the far future, in which humanity fights spectacular battles across the galaxy to defend its place among the stars. Arrayed against the might of mankind are the many different alien races and the malignant forces of Chaos.",
+    "imgUrl": "//localhost:3004/public/imgfile-1690309812240-801754561.jpg",
+    "createdAt": "2023-07-25T18:30:12.247Z",
+    "updatedAt": "2023-07-25T18:30:12.247Z",
+    "__v": 0
+  }
+]
