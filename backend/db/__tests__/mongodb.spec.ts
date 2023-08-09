@@ -5,23 +5,6 @@ import config from '../../config/server.cfg';
 import {init} from '../../server';
 import connectDb from '../mongodb';
 
-jest.mock('../../config/server.cfg', () => {
-  return {
-    app: {
-      host: 'localhost',
-      port: 8888,
-      images: '/public/images/',
-    },
-    db: {
-      host: 'localhost',
-      port: 9999,
-      database: 'test-db',
-      username: 'contoso',
-      password: 'costoso',
-    },
-  };
-});
-
 const {host, port, database, username, password} = config.db;
 
 const expectedArgs = {
