@@ -11,7 +11,7 @@ User-Agent: Aldous-Huxley-v1.0
 
 # ---
 
-GET http://localhost:3004/api/v1/products?t={{$timestamp}}
+GET http://localhost:3004/api/v1/products?page=1
 Content-Type: application/json
 
 # ---

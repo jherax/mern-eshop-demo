@@ -27,8 +27,15 @@ export async function addProduct(req: Request, res: Response) {
 }
 
 export async function getProducts(req: Request, res: Response) {
+  const page = +(req.query.page || 1);
+  const limit = +(req.query.limit || 10);
+  const startIndex = (page - 1) * limit;
   try {
-    const data = await Product.find().lean().exec();
+    const data = await Product.find()
+      .skip(startIndex)
+      .limit(limit)
+      .lean()
+      .exec();
     sendSuccess<IProduct[]>(res, messages.SUCCESSFUL, data);
   } catch (err) {
     sendError(res, err);
