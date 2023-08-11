@@ -37,7 +37,7 @@ const messages = {
     success: false,
   },
   AUTHENTICATION_FAILED: {
-    code: 400,
+    code: 401,
     message: 'Authentication failed. Please login with valid credentials.',
     success: false,
   },
@@ -58,12 +58,22 @@ const messages = {
   },
   INCOMPLETE_REQUEST: {
     code: 422,
-    message: 'Required parameter missing',
+    message: 'Required parameters missing',
+    success: false,
+  },
+  TOO_MANY_REQUESTS: {
+    code: 429,
+    message: 'Too many requests',
     success: false,
   },
   INTERNAL_SERVER_ERROR: {
     code: 500,
     message: 'Something unexpected happened',
+    success: false,
+  },
+  SERVICE_UNAVAILABLE: {
+    code: 503,
+    message: 'Service Unavailable',
     success: false,
   },
 };

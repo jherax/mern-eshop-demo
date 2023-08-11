@@ -7,6 +7,7 @@ const config = {
     host: process.env.APP_HOST,
     port: process.env.APP_PORT,
     images: '/public/images/',
+    maxRequests: +(process.env.MAX_REQUESTS_PER_WINDOW || 100),
   },
   db: {
     host: process.env.DB_HOST,
