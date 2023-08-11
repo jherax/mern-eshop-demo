@@ -14,6 +14,7 @@ const MAX_TRIES = 10;
 
 const options = {
   useNewUrlParser: true,
+  useUnifiedTopology: true, // Use new server discovery and monitoring engine
   autoIndex: false, // Don't build indexes
   // maxPoolSize: 10, // Maintain up to 10 socket connections
 };
@@ -34,7 +35,7 @@ async function connectDb(server: Server) {
       .catch(err => {
         if (intents === MAX_TRIES) {
           console.error(err);
-          process.exit(0);
+          throw new Error('Maximum number of connection retries reached');
         }
         console.info('🍃 MongoDB connection failed, retry in 2 secs.');
         console.error(err);
