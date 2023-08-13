@@ -4,6 +4,7 @@ import rateLimit from 'express-rate-limit';
 import uploadMiddleware from '../config/middleware.multer';
 import config from '../config/server.cfg';
 import {addProduct, getProducts} from '../controllers/productController';
+import validateRequestProduct from '../controllers/productValidator';
 import messages from '../utils/messages';
 
 export default function productRoutes(app: Express) {
@@ -28,7 +29,7 @@ export default function productRoutes(app: Express) {
   // when using enctype="multipart/form-data" in your form.
   router.post(
     '/products',
-    /* validateRequestBody, */
+    validateRequestProduct,
     uploadMiddleware.single('imgfile'),
     addProduct,
   );

@@ -11,8 +11,8 @@ export function sendSuccess<T = JSONObject>(
   return response.status(serverMsg.code).json(serverMsg);
 }
 
-export function sendError(response: Response, err: Error) {
-  const errorCode = (err as any).code ?? 500;
+export function sendError(response: Response, err: ServerError) {
+  const errorCode = err.code ?? 500;
   const msgKey = Object.keys(messages).find(key => {
     return messages[key].code === errorCode;
   });
@@ -22,4 +22,8 @@ export function sendError(response: Response, err: Error) {
     stack: err.stack,
   };
   return response.status(errorCode).json(serverMsg);
+}
+
+interface ServerError extends Partial<Error> {
+  code?: number;
 }
