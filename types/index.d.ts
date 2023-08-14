@@ -1,3 +1,4 @@
+import {IHealthCheck} from './HealthCheck';
 import {IProduct, ProductFormValues} from './Product';
 
 declare global {
@@ -26,6 +27,7 @@ declare global {
     };
   }
 
+  export {IHealthCheck};
   export {IProduct, ProductFormValues};
 }
 
