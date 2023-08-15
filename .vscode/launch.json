@@ -6,6 +6,7 @@
       "request": "launch",
       "name": "Debug React Web App",
       "url": "http://localhost:3000",
+      // "preLaunchTask": "start-dev-server",
       "webRoot": "${workspaceFolder}"
     },
     {

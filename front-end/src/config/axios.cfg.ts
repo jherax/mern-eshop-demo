@@ -20,7 +20,6 @@ export async function axiosGet<T = JSONObject>(url: string) {
     if (axios.isAxiosError(e)) {
       console.error(`${e.name}: ${e.code}: ${e.message}`);
     }
-    console.warn(e);
     return e.response?.data;
   }
 }
@@ -39,7 +38,6 @@ export async function axiosPost<T = JSONObject>(
     if (axios.isAxiosError(e)) {
       console.error(`${e.name}: ${e.code}: ${e.message}`);
     }
-    console.warn(e);
     return e.response?.data;
   }
 }
