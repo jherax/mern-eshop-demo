@@ -13,7 +13,7 @@ export default function healthCheckRoutes(app: Express) {
   const limiter = rateLimit({
     windowMs: 60 * 60 * 1000, // 1 hour
     max: 3, // limit each IP to 3 requests per windowMs
-    statusCode: messages.TOO_MANY_REQUESTS.code,
+    statusCode: messages.TOO_MANY_REQUESTS.statusCode,
     message: () => {
       const serverMsg: ServerResponse = messages.TOO_MANY_REQUESTS;
       const errorMsg = 'Limit of requests exceeded, please try again later';

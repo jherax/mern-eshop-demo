@@ -86,7 +86,7 @@ describe(`Testing GET "/healthcheck"`, () => {
     const lastResponse: ServerResponse = responses.pop().body;
     expect(lastResponse).toStrictEqual({
       message: TOO_MANY_REQUESTS.message,
-      code: 429,
+      statusCode: 429,
       success: false,
       error: {
         message: 'Limit of requests exceeded, please try again later',

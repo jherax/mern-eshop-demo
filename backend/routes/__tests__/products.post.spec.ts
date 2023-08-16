@@ -55,7 +55,7 @@ describe(`Testing POST "${v1}/products" routes`, () => {
     const response: ServerResponse = reply.body;
     const error = response.error;
 
-    expect(response.code).toBe(422);
+    expect(response.statusCode).toBe(422);
     expect(response.message).toBe(INCOMPLETE_REQUEST.message);
     expect(response.success).toBe(false);
     expect(error.message).toBe('Required parameters missing');
@@ -70,7 +70,7 @@ describe(`Testing POST "${v1}/products" routes`, () => {
     const reply = await request(server).post(`${v1}/products`).send(PAYLOAD);
     const response: ServerResponse = reply.body;
 
-    expect(response.code).toBe(500);
+    expect(response.statusCode).toBe(500);
     expect(response.message).toBe(INTERNAL_SERVER_ERROR.message);
     expect(response.success).toBe(false);
     expect(response.error.message).toBe('Database error');

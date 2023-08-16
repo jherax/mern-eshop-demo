@@ -29,7 +29,7 @@ export default function validateRequestProduct(
 
   if (errorMessages.length) {
     sendError(res, {
-      code: messages.INCOMPLETE_REQUEST.code,
+      code: messages.INCOMPLETE_REQUEST.statusCode,
       message: messages.INCOMPLETE_REQUEST.message,
       stack: ['There are errors in the body payload.']
         .concat(errorMessages)

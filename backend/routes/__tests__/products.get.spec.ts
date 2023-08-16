@@ -32,9 +32,9 @@ describe(`Testing GET "${v1}/products" routes`, () => {
     const reply = await request(server).get(`${v1}/products`);
     const response: ServerResponse = reply.body;
     expect(response).toStrictEqual({
-      code: 200,
-      success: true,
+      statusCode: 200,
       message: SUCCESSFUL.message,
+      success: true,
       data: [],
     });
     expect(Product.find).toHaveBeenCalledTimes(1);
@@ -75,7 +75,7 @@ describe(`Testing GET "${v1}/products" routes`, () => {
     const reply = await request(server).get(`${v1}/products`);
     const response: ServerResponse = reply.body;
 
-    expect(response.code).toBe(500);
+    expect(response.statusCode).toBe(500);
     expect(response.message).toBe(INTERNAL_SERVER_ERROR.message);
     expect(response.success).toBe(false);
     expect(response.error.message).toBe('Database error');

@@ -16,7 +16,7 @@ export default function productRoutes(app: Express) {
   const limiter = rateLimit({
     windowMs: 60 * 60 * 1000, // 1 hour
     max: config.app.maxRequests, // limit each IP to X requests per windowMs,
-    statusCode: messages.TOO_MANY_REQUESTS.code,
+    statusCode: messages.TOO_MANY_REQUESTS.statusCode,
     message: () => {
       const serverMsg: ServerResponse = messages.TOO_MANY_REQUESTS;
       const errorMsg = 'Limit of requests exceeded, please try again later';
