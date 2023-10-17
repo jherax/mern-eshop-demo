@@ -1,4 +1,6 @@
-POST http://localhost:3004/api/v1/products?t={{$timestamp}}
+@app_port = {{$dotenv APP_PORT}}
+
+POST http://localhost:{{app_port}}/api/v1/products?t={{$timestamp}}
 Content-Type: application/json
 User-Agent: Aldous-Huxley-v1.0
 
@@ -11,9 +13,9 @@ User-Agent: Aldous-Huxley-v1.0
 
 # ---
 
-GET http://localhost:3004/api/v1/products?page=1
+GET http://localhost:{{app_port}}/api/v1/products?page=1
 Content-Type: application/json
 
 # ---
 
-GET http://localhost:3004/healthcheck
+GET http://localhost:{{app_port}}/healthcheck

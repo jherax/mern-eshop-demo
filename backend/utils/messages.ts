@@ -30,6 +30,7 @@ const messages: Record<string, ServerMessage> = {
     success: true,
     message: 'Already exists',
   },
+
   // ERROR MESSAGES
   BAD_REQUEST: {
     statusCode: 400,

@@ -3,7 +3,7 @@ import {agent as request} from 'supertest';
 
 import productsMock from '../../__mocks__/products.json';
 import Product from '../../models/Product';
-import {init} from '../../server';
+import {initServer} from '../../server';
 import messages from '../../utils/messages';
 
 let server: Server;
@@ -11,7 +11,7 @@ const v1 = '/api/v1';
 const {SUCCESSFUL, INTERNAL_SERVER_ERROR} = messages;
 
 beforeAll(async () => {
-  server = await init();
+  server = await initServer();
 });
 
 afterAll(() => {

@@ -13,7 +13,7 @@ let server: Server;
 const appPort = config.app.port;
 const appHost = config.app.host;
 
-export const init = async () => {
+export const initServer = async () => {
   app = express();
   app.use(cors());
   app.use(bodyParser.json());
@@ -25,13 +25,13 @@ export const init = async () => {
   return server;
 };
 
-export const prepareDb = async () => {
-  server.on('ready', start);
+export const initDb = async () => {
+  server.on('ready', startServer);
   connectDb(server);
   return server;
 };
 
-export const start = async () => {
+const startServer = async () => {
   server.listen(appPort, () => {
     console.info(`⚡️ Express running at http://${appHost}:${appPort}`);
   });

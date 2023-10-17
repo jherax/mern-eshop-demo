@@ -1,3 +1,3 @@
-import {init, prepareDb} from './server';
+import {initDb, initServer} from './server';
 
-init().then(prepareDb);
+initServer().then(initDb);

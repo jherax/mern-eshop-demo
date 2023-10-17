@@ -2,7 +2,7 @@ import type {Server} from 'http';
 import mongoose, {type Mongoose} from 'mongoose';
 
 import config from '../../config/server.cfg';
-import {init} from '../../server';
+import {initServer} from '../../server';
 import connectDb from '../mongodb';
 
 const {host, port, database, username, password} = config.db;
@@ -27,7 +27,7 @@ describe('Connect database with retry', () => {
   beforeAll(async () => {
     const TIMESTAMP = new Date().toISOString();
     jest.useFakeTimers().setSystemTime(new Date(TIMESTAMP));
-    server = await init();
+    server = await initServer();
   });
 
   beforeEach(() => {

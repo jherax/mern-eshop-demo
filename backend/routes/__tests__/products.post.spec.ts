@@ -3,7 +3,7 @@ import {agent as request} from 'supertest';
 
 import * as dbMock from '../../__mocks__/mongo.db';
 import Product from '../../models/Product';
-import {init} from '../../server';
+import {initServer} from '../../server';
 import messages from '../../utils/messages';
 
 let server: Server;
@@ -21,7 +21,7 @@ describe(`Testing POST "${v1}/products" routes`, () => {
 
   beforeAll(async () => {
     await dbMock.setUp();
-    server = await init();
+    server = await initServer();
   });
 
   afterEach(async () => {
