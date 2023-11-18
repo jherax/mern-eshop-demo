@@ -28,6 +28,7 @@ package-lock.json
 .versionrc
 .DS_Store
 *.pem
+*.nf.*
 
 # debug
 *.log*
