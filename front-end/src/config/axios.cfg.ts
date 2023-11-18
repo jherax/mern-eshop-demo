@@ -1,4 +1,5 @@
 import axios, {AxiosRequestConfig, type AxiosError} from 'axios';
+import logger from './logger';
 
 /*
 const defaultPostConfig = {
@@ -18,7 +19,7 @@ export async function axiosGet<T = JSONObject>(url: string) {
   } catch (error) {
     const e = error as AxiosError<T>;
     if (axios.isAxiosError(e)) {
-      console.error(`${e.name}: ${e.code}: ${e.message}`);
+      logger.error(`${e.name}: ${e.code}: ${e.message}`);
     }
     return e.response?.data;
   }
@@ -36,7 +37,7 @@ export async function axiosPost<T = JSONObject>(
   } catch (error) {
     const e = error as AxiosError<T>;
     if (axios.isAxiosError(e)) {
-      console.error(`${e.name}: ${e.code}: ${e.message}`);
+      logger.error(`${e.name}: ${e.code}: ${e.message}`);
     }
     return e.response?.data;
   }

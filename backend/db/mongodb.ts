@@ -2,6 +2,7 @@ import {type Express} from 'express';
 import mongoose from 'mongoose';
 
 import config from '../config/server.cfg';
+import logger from '../utils/logger';
 
 /**
  * @see https://github.com/docker/awesome-compose/blob/master/react-express-mongodb/backend/db/index.js
@@ -29,16 +30,16 @@ async function connectDb(app: Express) {
       .connect(uri, options)
       .then(() => {
         clearTimeout(timerId);
-        console.info('🍃 MongoDB is connected');
+        logger.info('🍃 MongoDB is connected');
         app.emit('ready');
       })
       .catch(err => {
         if (intents === MAX_TRIES) {
-          console.error(err);
+          logger.error(err);
           throw new Error('Maximum number of connection retries reached');
         }
-        console.info('🍃 MongoDB connection failed, retry in 2 secs.');
-        console.error(err);
+        logger.info('🍃 MongoDB connection failed, retry in 2 secs.');
+        logger.error(err);
         timerId = setTimeout(connectWithRetry, 2000);
         intents += 1;
       });

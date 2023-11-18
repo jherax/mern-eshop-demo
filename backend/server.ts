@@ -7,6 +7,7 @@ import http, {type Server} from 'http';
 import config from './config/server.cfg';
 import connectDb from './db/mongodb';
 import registerRoutes from './routes';
+import logger from './utils/logger';
 
 let app: Express;
 let server: Server;
@@ -27,7 +28,7 @@ export const initServer = async () => {
 
 const startServer = async () => {
   server.listen(appPort, () => {
-    console.info(`⚡️ Express running at http://${appHost}:${appPort}`);
+    logger.info(`⚡️ Express running at http://${appHost}:${appPort}`);
   });
   return server;
 };
@@ -39,6 +40,6 @@ export const initDb = async () => {
 };
 
 process.on('unhandledRejection', err => {
-  console.error(err);
+  logger.error(err);
   process.exit(1);
 });

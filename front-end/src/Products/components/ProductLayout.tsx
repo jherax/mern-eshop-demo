@@ -6,6 +6,7 @@ import AddButton from './AddButton';
 import ListProducts from './ListProducts';
 import ProductForm from './ProductForm';
 import {getProducts, saveProduct} from '../services';
+import logger from '../../config/logger';
 
 function ProductLayout() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -16,7 +17,7 @@ function ProductLayout() {
     const products = await getProducts();
     setProductsList(products);
     setIsListLoading(false);
-    console.log('getProducts:', products);
+    logger.log('getProducts:', products);
   };
 
   // ComponentDidMount

@@ -3,6 +3,7 @@ import mongoose, {type Mongoose} from 'mongoose';
 
 import config from '../../config/server.cfg';
 import {initServer} from '../../server';
+import logger from '../../utils/logger';
 import connectDb from '../mongodb';
 
 const {host, port, database, username, password} = config.db;
@@ -19,9 +20,9 @@ const expectedArgs = {
 };
 
 describe('Connect database with retry', () => {
-  // prevent the console methods from writting the terminal
-  const logError = jest.spyOn(console, 'error').mockImplementation(jest.fn());
-  const logInfo = jest.spyOn(console, 'info').mockImplementation(jest.fn());
+  // prevent the logger methods from writting the terminal
+  const logError = jest.spyOn(logger, 'error').mockImplementation(jest.fn());
+  const logInfo = jest.spyOn(logger, 'info').mockImplementation(jest.fn());
   let server: Server;
 
   beforeAll(async () => {

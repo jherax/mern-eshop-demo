@@ -1,15 +1,16 @@
-import config from '../../config/app.cfg';
 import {axiosGet, axiosPost} from '../../config/axios.cfg';
+import config from '../../config/app.cfg';
+import logger from '../../config/logger';
 
 export async function getProducts(): Promise<IProduct[]> {
   const response = await axiosGet<ProductsResponse>(
     `${config.api.baseUrl}/products`,
   );
-  // console.log(response);
+  // logger.log(response);
   if (response?.success) {
-    return response.data || [];
+    return response.data ?? [];
   }
-  console.warn('Unsuccessful response: ', response);
+  logger.warn('Unsuccessful response: ', response);
   return [];
 }
 
@@ -26,11 +27,11 @@ export async function saveProduct(data: ProductFormValues): Promise<IProduct> {
     formData,
   );
 
-  // console.log(response);
+  // logger.log(response);
   if (response?.success) {
-    return response.data || Object.create(null);
+    return response.data ?? Object.create(null);
   }
-  console.warn('Unsuccessful response: ', response);
+  logger.warn('Unsuccessful response: ', response);
   return Object.create(null);
 }
 
