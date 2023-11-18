@@ -1,0 +1,10 @@
+######################
+### Test the pure-node.js api
+
+POST http://localhost:9000/getMaxTransactionAmountForUsers
+Content-Type: application/json
+
+{
+  "role": "ADMIN",
+  "userIds": [23,5,74,32,978,74,43,5]
+}
