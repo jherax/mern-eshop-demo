@@ -1,4 +1,4 @@
-import {type Server} from 'http';
+import {type Express} from 'express';
 import mongoose from 'mongoose';
 
 import config from '../config/server.cfg';
@@ -19,7 +19,7 @@ const options = {
   // maxPoolSize: 10, // Maintain up to 10 socket connections
 };
 
-async function connectDb(server: Server) {
+async function connectDb(app: Express) {
   const {host, port, database, username, password} = config.db;
   const uri = `mongodb://${username}:${password}@${host}:${port}/${database}`;
   mongoose.Promise = global.Promise;
@@ -30,7 +30,7 @@ async function connectDb(server: Server) {
       .then(() => {
         clearTimeout(timerId);
         console.info('🍃 MongoDB is connected');
-        server.emit('ready');
+        app.emit('ready');
       })
       .catch(err => {
         if (intents === MAX_TRIES) {

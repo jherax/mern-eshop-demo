@@ -25,16 +25,16 @@ export const initServer = async () => {
   return server;
 };
 
-export const initDb = async () => {
-  server.on('ready', startServer);
-  connectDb(server);
-  return server;
-};
-
 const startServer = async () => {
   server.listen(appPort, () => {
     console.info(`⚡️ Express running at http://${appHost}:${appPort}`);
   });
+  return server;
+};
+
+export const initDb = async () => {
+  app.on('ready', startServer);
+  connectDb(app);
   return server;
 };
 
