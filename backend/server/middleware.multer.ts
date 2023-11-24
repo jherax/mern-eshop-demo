@@ -1,7 +1,7 @@
 import multer from 'multer';
 import {extname} from 'path';
 
-import config from '../config/server.cfg';
+import config from './config';
 
 /** @see https://www.npmjs.com/package/multer */
 const storage = multer.diskStorage({

@@ -1,8 +1,8 @@
 import type {Server} from 'http';
 import mongoose, {type Mongoose} from 'mongoose';
 
-import config from '../../config/server.cfg';
 import {initServer} from '../../server';
+import config from '../../server/config';
 import logger from '../../utils/logger';
 import connectDb from '../mongodb';
 

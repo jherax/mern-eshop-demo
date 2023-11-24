@@ -1,7 +1,7 @@
 import type {NextFunction, Request, Response} from 'express';
 
-import messages from '../utils/messages';
-import {sendError} from '../utils/responses';
+import messages from '../server/messages';
+import {sendError} from '../server/responses';
 
 export default function validateRequestProduct(
   req: Request,

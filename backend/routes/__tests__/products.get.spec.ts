@@ -4,7 +4,7 @@ import {agent as request} from 'supertest';
 import productsMock from '../../__mocks__/products.json';
 import Product from '../../models/Product';
 import {initServer} from '../../server';
-import messages from '../../utils/messages';
+import messages from '../../server/messages';
 
 let server: Server;
 const v1 = '/api/v1';

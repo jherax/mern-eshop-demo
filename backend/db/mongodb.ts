@@ -1,7 +1,8 @@
 import {type Express} from 'express';
+import type {Server} from 'http';
 import mongoose from 'mongoose';
 
-import config from '../config/server.cfg';
+import config from '../server/config';
 import logger from '../utils/logger';
 
 /**
@@ -20,7 +21,7 @@ const options = {
   // maxPoolSize: 10, // Maintain up to 10 socket connections
 };
 
-async function connectDb(app: Express) {
+async function connectDb(app: Express | Server) {
   const {host, port, database, username, password} = config.db;
   const uri = `mongodb://${username}:${password}@${host}:${port}/${database}`;
   mongoose.Promise = global.Promise;

@@ -1,6 +1,6 @@
 import type {Response} from 'express';
 
-import messages from '../utils/messages';
+import messages from './messages';
 
 export function sendSuccess<T = JSONObject>(
   response: Response,

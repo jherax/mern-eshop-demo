@@ -2,7 +2,7 @@ import express, {type Express} from 'express';
 import rateLimit from 'express-rate-limit';
 
 import {healthCheck} from '../controllers/healthController';
-import messages from '../utils/messages';
+import messages from '../server/messages';
 
 export default function healthCheckRoutes(app: Express) {
   const router = express.Router();

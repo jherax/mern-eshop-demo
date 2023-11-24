@@ -1,6 +1,6 @@
 import express, {type Express, type Request, type Response} from 'express';
 
-import config from '../config/server.cfg';
+import config from '../server/config';
 import healthCheckRoutes from './health';
 import productRoutes from './products';
 

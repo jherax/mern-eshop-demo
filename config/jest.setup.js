@@ -20,12 +20,13 @@
 // ---------------------------------
 // Jest mock is hoisted before any module import
 
-jest.mock('../backend/config/server.cfg', () => {
+jest.mock('../backend/server/config', () => {
   return {
     app: {
       host: 'localhost',
       port: 8888,
       images: '/public/images/',
+      maxRequests: 5,
     },
     db: {
       host: 'localhost',

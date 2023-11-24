@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-import config from '../config/server.cfg';
+import config from '../server/config';
 
 /**
  * @see https://mongoosejs.com/docs/typescript/statics-and-methods.html

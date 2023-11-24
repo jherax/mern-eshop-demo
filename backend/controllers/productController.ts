@@ -1,8 +1,8 @@
 import type {Request, Response} from 'express';
 
 import Product from '../models/Product';
-import messages from '../utils/messages';
-import {sendError, sendSuccess} from '../utils/responses';
+import messages from '../server/messages';
+import {sendError, sendSuccess} from '../server/responses';
 
 export async function addProduct(req: Request, res: Response) {
   const params = req.body;

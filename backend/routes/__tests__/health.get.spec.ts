@@ -3,7 +3,7 @@ import {agent as request} from 'supertest';
 
 import HealthCheck from '../../models/HealthCheck';
 import {initServer} from '../../server';
-import messages from '../../utils/messages';
+import messages from '../../server/messages';
 
 let server: Server;
 const {SERVICE_UNAVAILABLE, INTERNAL_SERVER_ERROR, TOO_MANY_REQUESTS} =

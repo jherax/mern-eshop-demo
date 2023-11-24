@@ -4,10 +4,10 @@ import cors from 'cors';
 import express, {type Express} from 'express';
 import http, {type Server} from 'http';
 
-import config from './config/server.cfg';
-import connectDb from './db/mongodb';
-import registerRoutes from './routes';
-import logger from './utils/logger';
+import connectDb from '../db/mongodb';
+import registerRoutes from '../routes';
+import logger from '../utils/logger';
+import config from './config';
 
 let app: Express;
 let server: Server;
@@ -26,7 +26,7 @@ export const initServer = async () => {
   return server;
 };
 
-const startServer = async () => {
+export const startServer = async () => {
   server.listen(appPort, () => {
     logger.info(`⚡️ Express running at http://${appHost}:${appPort}`);
   });

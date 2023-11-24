@@ -1,8 +1,8 @@
 import {type Request, type Response} from 'express';
 
 import HealthCheck from '../models/HealthCheck';
-import messages from '../utils/messages';
-import {sendError, sendSuccess} from '../utils/responses';
+import messages from '../server/messages';
+import {sendError, sendSuccess} from '../server/responses';
 
 export async function healthCheck(req: Request, res: Response) {
   const healthStatus = {

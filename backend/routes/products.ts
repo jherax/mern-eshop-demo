@@ -1,11 +1,11 @@
 import express, {type Express} from 'express';
 import rateLimit from 'express-rate-limit';
 
-import uploadMiddleware from '../config/middleware.multer';
-import config from '../config/server.cfg';
 import {addProduct, getProducts} from '../controllers/productController';
 import validateRequestProduct from '../controllers/productValidator';
-import messages from '../utils/messages';
+import config from '../server/config';
+import messages from '../server/messages';
+import uploadMiddleware from '../server/middleware.multer';
 
 export default function productRoutes(app: Express) {
   const router = express.Router();
