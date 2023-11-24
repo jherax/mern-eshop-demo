@@ -12,12 +12,12 @@ const messages: Record<string, ServerMessage> = {
   },
   SUCCESSFUL_UPDATE: {
     statusCode: 200,
-    message: 'Updated successfully',
+    message: 'Successfully updated',
     success: true,
   },
   SUCCESSFUL_ADDED: {
     statusCode: 200, // 201
-    message: 'Created successfully',
+    message: 'Successfully created',
     success: true,
   },
   SUCCESSFUL: {
@@ -30,14 +30,13 @@ const messages: Record<string, ServerMessage> = {
     success: true,
     message: 'Already exists',
   },
-
   // ERROR MESSAGES
   BAD_REQUEST: {
     statusCode: 400,
     message: 'Bad request. Please try again with valid parameters',
     success: false,
   },
-  AUTHENTICATION_FAILED: {
+  UNAUTHENTICATED: {
     statusCode: 401,
     message: 'Authentication failed. Please login with valid credentials.',
     success: false,
@@ -64,7 +63,7 @@ const messages: Record<string, ServerMessage> = {
   },
   TOO_MANY_REQUESTS: {
     statusCode: 429,
-    message: 'Too many requests',
+    message: 'Too Many Requests',
     success: false,
   },
   INTERNAL_SERVER_ERROR: {

@@ -44,7 +44,7 @@ describe('Connect database with retry', () => {
   it('should connect to MongoDB', async () => {
     const mongooseConnectSpy = jest
       .spyOn<Mongoose, 'connect'>(mongoose, 'connect')
-      .mockReturnValue(Promise.resolve(mongoose));
+      .mockReturnValueOnce(Promise.resolve(mongoose));
 
     await connectDb(server);
     const {connectUrl, connectOptions, connectSuccess} = expectedArgs;

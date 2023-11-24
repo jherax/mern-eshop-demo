@@ -2,20 +2,11 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "type": "chrome",
-      "request": "launch",
-      "name": "Debug React Web App",
-      "url": "http://localhost:3000",
-      // "preLaunchTask": "start-dev-server",
-      "webRoot": "${workspaceFolder}"
-    },
-    {
       "name": "TS: Debug Server",
       "type": "node",
       "request": "launch",
       "runtimeExecutable": "node",
       "runtimeArgs": ["--nolazy", "-r", "ts-node/register/transpile-only"],
-      "args": [],
       "program": "backend/index.ts",
       "cwd": "${workspaceRoot}",
       "internalConsoleOptions": "openOnSessionStart",
