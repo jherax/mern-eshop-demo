@@ -14,6 +14,14 @@ let server: Server;
 const appPort = config.app.port;
 const appHost = config.app.host;
 
+/**
+ * Do not call, initServer() and startServer(). This will allow you to initialize and start
+ * the server from different files. The initServer() function will initialize the
+ * server (starts the caches, finalizes plugin registration) but does not start
+ * the server. This is what you will use in your tests. The startServer() function
+ * will actually start the server. This is what you will use in our main
+ * entry-point for the server.
+ */
 export const initServer = async () => {
   app = express();
   app.use(cors());
@@ -38,8 +46,3 @@ export const initDb = async () => {
   connectDb(app);
   return server;
 };
-
-process.on('unhandledRejection', err => {
-  logger.error(err);
-  process.exit(1);
-});
