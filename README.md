@@ -16,10 +16,10 @@ Just run the command
 
 ```bash
 npm run mongod
-npm run dev-server
+npm run dev:server
 ```
 
-## docker
+## Docker
 
 MongoDB is loaded as a docker container, sou you need to make sure to create a
 `.env` file with the following environment variables:
@@ -69,7 +69,7 @@ docker exec -it mongodb_6 bash
 root@mongodb:/#
 ```
 
-## husky
+## Husky
 
 ```bash
 npm install husky -D
@@ -87,29 +87,29 @@ Add a hook:
 npx husky add .husky/pre-commit "npx lint-staged"
 npx husky add .husky/post-commit "git update-index -g"
 npx husky add .husky/commit-msg 'npx --no -- commitlint --edit ${1}'
-git add .husky/
-git commit -m "chore: Added git hooks with husky"
 ```
 
 See:
 [conventional-changelog/commitlint](https://github.com/conventional-changelog/commitlint).
 
-## standard-version
+## Standard-version
 
-`standard-version` needs to have a starting point to append the CHANGELOG and
-other versions to. Simply run:
+`standard-version` is a utility for versioning using **semver** and CHANGELOG
+generation powered by Conventional Commits. You need to have a starting point to
+append the CHANGELOG and other versions to. The first time simply run:
 
 ```bash
 npm run release -- --first-release
 ```
 
-### Usage
-
-For a new release, just run
+Then, for a new release, just run:
 
 ```bash
 npm run release
 ```
+
+⚠️ _**standard-version** is deprecated. It is recommended to use an alternative
+like [`release-please`](https://github.com/googleapis/release-please)._
 
 For more details, please visit the Github site
 [standard-version](https://github.com/conventional-changelog/standard-version)
