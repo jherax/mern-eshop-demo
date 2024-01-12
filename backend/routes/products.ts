@@ -29,8 +29,8 @@ export default function productRoutes(app: Express) {
   // when using enctype="multipart/form-data" in your form.
   router.post(
     '/products',
-    validateRequestProduct,
     uploadMiddleware.single('imgfile'),
+    validateRequestProduct,
     addProduct,
   );
 

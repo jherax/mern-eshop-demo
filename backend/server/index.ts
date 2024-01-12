@@ -24,7 +24,7 @@ const appHost = config.app.host;
  */
 export const initServer = async () => {
   app = express();
-  app.use(cors());
+  app.use(cors<cors.CorsRequest>());
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({extended: false}));
   app.use(cookieParser());

@@ -1,15 +1,11 @@
 import axios, {AxiosRequestConfig, type AxiosError} from 'axios';
 import logger from './logger';
 
-/*
 const defaultPostConfig = {
   headers: {
-    'Content-Type': 'application/json',
-    'Content-Type': 'multipart/form-data'
-    Accept: 'application/json',
+    'Content-Type': 'multipart/form-data',
   },
 };
-*/
 
 /** @see https://bobbyhadz.com/blog/typescript-http-request-axios#making-http-get-requests-with-axios-in-typescript */
 export async function axiosGet<T = JSONObject>(url: string) {
@@ -32,7 +28,8 @@ export async function axiosPost<T = JSONObject>(
   config?: AxiosRequestConfig,
 ) {
   try {
-    const response = (await axios.post<T>(url, body, config)).data;
+    const newConfig = {...defaultPostConfig, ...config};
+    const response = (await axios.post<T>(url, body, newConfig)).data;
     return response;
   } catch (error) {
     const e = error as AxiosError<T>;

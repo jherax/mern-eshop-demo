@@ -1,4 +1,4 @@
-# E-commerce demo with MERN stack
+# Demo with MERN stack
 
 ## Environment
 

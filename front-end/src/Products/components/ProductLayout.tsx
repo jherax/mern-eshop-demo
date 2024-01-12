@@ -4,7 +4,7 @@ import {Container, Modal, Section} from 'react-bulma-components';
 import Header from './Header';
 import AddButton from './AddButton';
 import ListProducts from './ListProducts';
-import ProductForm from './ProductForm';
+import ProductForm, {type ProductFormSubmit} from './ProductForm';
 import {getProducts, saveProduct} from '../services';
 import logger from '../../config/logger';
 
@@ -35,12 +35,14 @@ function ProductLayout() {
     setIsModalOpen(true);
   };
 
-  const onSubmitForm = (data: ProductFormValues) => {
-    saveProduct(data).then(product => {
-      setIsModalOpen(false);
-      const products = [...productsList, product];
-      setProductsList(products);
-    });
+  const onSubmitForm = (data: ProductFormSubmit) => {
+    if (!data.hasErrors) {
+      saveProduct(data).then(product => {
+        setIsModalOpen(false);
+        const products = [...productsList, product];
+        setProductsList(products);
+      });
+    }
   };
 
   return (

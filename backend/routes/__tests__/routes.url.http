@@ -1,6 +1,6 @@
-@app_port = {{$dotenv APP_PORT}}
+@baseUrl = http://localhost:{{$dotenv APP_PORT}}
 
-POST http://localhost:{{app_port}}/api/v1/products?t={{$timestamp}}
+POST {{baseUrl}}/api/v1/products?t={{$timestamp}}
 Content-Type: application/json
 User-Agent: Aldous-Huxley-v1.0
 
@@ -11,11 +11,13 @@ User-Agent: Aldous-Huxley-v1.0
   "description": "Ravening aliens strike at a desperate Imperium in the new edition of Warhammer 40,000."
 }
 
+# Find videogame images here:
+# https://www.ign.com/articles/2012/12/12/the-12-best-video-game-box-arts-of-2012
 # ---
 
-GET http://localhost:{{app_port}}/api/v1/products?page=1
+GET {{baseUrl}}/api/v1/products?page=1
 Content-Type: application/json
 
 # ---
 
-GET http://localhost:{{app_port}}/healthcheck
+GET {{baseUrl}}/healthcheck
