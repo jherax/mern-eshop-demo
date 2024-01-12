@@ -1,7 +1,7 @@
 {
-  "name": "mern-ecommerce-demo",
+  "name": "mern-eshop-demo",
   "version": "1.0.0",
-  "description": "E-commerce demo with MERN stack",
+  "description": "Demo with MERN stack",
   "main": "dist/index.js",
   "module": "dist/index.esm.mjs",
   "types": "dist/index.d.ts",

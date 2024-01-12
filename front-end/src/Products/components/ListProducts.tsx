@@ -22,7 +22,7 @@ function ListProducts({products, isLoading}: ListProductsProps) {
       {products.map((item, key) => {
         return (
           <Columns.Column key={key} size={3}>
-            <Card>
+            <Card className='card-equal-height'>
               <Card.Image
                 size='4by5'
                 src={item.imgUrl}
@@ -37,7 +37,7 @@ function ListProducts({products, isLoading}: ListProductsProps) {
                   <Heading subtitle size={6}>
                     Size: {item.size}
                   </Heading>
-                  <p>{item.description}</p>
+                  <p>{textEllipsis(item.description)}</p>
                 </Content>
               </Card.Content>
             </Card>
@@ -51,6 +51,11 @@ function ListProducts({products, isLoading}: ListProductsProps) {
 function getAltText(src: string | undefined) {
   if (!src) return 'No image available';
   return '';
+}
+
+function textEllipsis(text: string): string {
+  if (text.length < 275) return text;
+  return text.split('').slice(0, 274).join('') + '…';
 }
 
 export default ListProducts;
