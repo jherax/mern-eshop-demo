@@ -1,4 +1,5 @@
 import 'bulma/css/bulma.min.css';
+import './base.css';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import ProductLayout from './Products/components/ProductLayout';
