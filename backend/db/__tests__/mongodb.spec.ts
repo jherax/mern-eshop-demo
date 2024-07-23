@@ -48,8 +48,8 @@ describe('Connect database with retry', () => {
 
     await connectDb(server);
     const {connectUrl, connectOptions, connectSuccess} = expectedArgs;
-    expect(mongooseConnectSpy).toBeCalledWith(connectUrl, connectOptions);
-    expect(logInfo).toBeCalledWith(connectSuccess);
+    expect(mongooseConnectSpy).toHaveBeenCalledWith(connectUrl, connectOptions);
+    expect(logInfo).toHaveBeenCalledWith(connectSuccess);
     mongooseConnectSpy.mockRestore();
   });
 
@@ -77,7 +77,7 @@ describe('Connect database with retry', () => {
     } catch (error) {
       const {connectUrl, connectOptions, connectFail} = expectedArgs;
       expect(mongooseConnectSpy).toBeCalledWith(connectUrl, connectOptions);
-      expect(logInfo).toBeCalledWith(connectFail);
+      expect(logInfo).toHaveBeenCalledWith(connectFail);
       expect(logError).toHaveBeenCalled();
       expect(setTimeout).toHaveBeenCalled();
       mongooseConnectSpy.mockRestore();

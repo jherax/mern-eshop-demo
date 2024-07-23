@@ -1,5 +1,12 @@
 # Demo with MERN stack
 
+React App to add new products and list a product catalog. For the UI we use
+[React Bulma Components](https://couds.github.io/react-bulma-components/?path=/story/welcome--page),
+which is a high abstraction of the
+[BULMA](https://bulma.io/documentation/form/general/) CSS framework.
+
+For the backend we are using Node.js + Express + MongoDB (Docker)
+
 ## Environment
 
 Make sure to set the env variables. For local environment you can create a
@@ -61,12 +68,12 @@ web-based MongoDB admin interface, go to the browser and navigate to
 `http://localhost:3001/`, using credentials in the env variables
 `DB_INIT_USERNAME` and `DB_INIT_PASSWORD`
 
-If you want to opent the terminal to run commands on the container, just run the
+If you want to open the terminal to run commands on the container, just run the
 following command for the specific container:
 
 ```bash
 docker exec -it mongodb_6 bash
-root@mongodb:/#
+root@mongodb_host:/#
 ```
 
 ## Husky

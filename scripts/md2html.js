@@ -66,7 +66,7 @@ function addResources(html) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.classless.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/dracula/highlightjs/dracula.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    <style> pre>code.hljs {padding: var(--spacing); color: rgb(162, 175, 185);} </style>
+    <style> pre>code.hljs {padding: var(--spacing); color: rgb(162, 175, 185);} blockquote p {margin-bottom: 0;}</style>
     <script>hljs.highlightAll();</script>
   </head>
   <body>

@@ -2,6 +2,27 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "type": "node",
+      "request": "launch",
+      "name": "Jest: Current File",
+      "program": "${workspaceFolder}/node_modules/.bin/jest",
+      "args": [
+        "--silent=false",
+        "--detectOpenHandles",
+        "--unhandled-rejections=strict",
+        "--forceExit",
+        "--verbose",
+        "--runInBand",
+        "--config=${workspaceFolder}/config/jest.config.js",
+        "${fileBasenameNoExtension}"
+      ],
+      "env": {"NODE_ENV": "test"},
+      "console": "integratedTerminal",
+      "windows": {
+        "program": "${workspaceFolder}/node_modules/jest/bin/jest"
+      }
+    },
+    {
       "name": "TS: Debug Server",
       "type": "node",
       "request": "launch",
@@ -37,27 +58,6 @@
       "cwd": "${workspaceFolder}",
       "console": "integratedTerminal",
       "args": []
-    },
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "Jest: Current File",
-      "program": "${workspaceFolder}/node_modules/.bin/jest",
-      "args": [
-        "--silent=false",
-        "--detectOpenHandles",
-        "--unhandled-rejections=strict",
-        "--forceExit",
-        "--verbose",
-        "--runInBand",
-        "--config=${workspaceFolder}/config/jest.config.js",
-        "${fileBasenameNoExtension}"
-      ],
-      "env": {"NODE_ENV": "test"},
-      "console": "integratedTerminal",
-      "windows": {
-        "program": "${workspaceFolder}/node_modules/jest/bin/jest"
-      }
     }
   ]
 }
