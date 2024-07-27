@@ -2,18 +2,21 @@ import type {Server} from 'http';
 import {agent as request} from 'supertest';
 
 import HealthCheck from '../../models/HealthCheck';
-import {initServer} from '../../server';
+import {NodeServer} from '../../server';
 import messages from '../../server/messages';
 
-let server: Server;
 const {SERVICE_UNAVAILABLE, INTERNAL_SERVER_ERROR, TOO_MANY_REQUESTS} =
   messages;
 
 describe(`Testing GET "/healthcheck"`, () => {
+  jest.spyOn(NodeServer.prototype, 'start').mockImplementation(jest.fn());
   const findOneAndUpdateSpy = jest.spyOn(HealthCheck, 'findOneAndUpdate');
+  let appInstance: NodeServer;
+  let server: Server;
 
   beforeAll(async () => {
-    server = await initServer();
+    appInstance = new NodeServer();
+    server = appInstance.server;
   });
 
   afterEach(() => {

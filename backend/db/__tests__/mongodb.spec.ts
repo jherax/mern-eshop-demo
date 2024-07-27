@@ -1,12 +1,11 @@
 import {setTimeout} from 'node:timers/promises';
 
-import type {Server} from 'http';
 import mongoose, {type Mongoose} from 'mongoose';
 
-import {initServer} from '../../server';
+import {NodeServer} from '../../server';
 import config from '../../server/config';
+import events from '../../server/events';
 import logger from '../../utils/logger';
-import connectDb from '../mongodb';
 
 const {host, port, database, username, password} = config.db;
 const connectUrl = `mongodb://${username}:${password}@${host}:${port}/${database}`;
@@ -28,14 +27,17 @@ jest.mock('../../utils/logger', () => {
 });
 
 describe('Connect database with retry using MongoDB and Mongoose', () => {
-  let server: Server;
+  jest.spyOn(NodeServer.prototype, 'start').mockImplementation(jest.fn());
+  let emitter: jest.SpyInstance;
+  let appInstance: NodeServer;
 
   beforeAll(async () => {
-    server = await initServer();
+    appInstance = new NodeServer();
+    emitter = jest.spyOn(appInstance.app, 'emit');
   });
 
   afterAll(() => {
-    server.close();
+    appInstance.server.close();
   });
 
   // Database connection is successfully established with MongoDB
@@ -44,9 +46,10 @@ describe('Connect database with retry using MongoDB and Mongoose', () => {
       .spyOn<Mongoose, 'connect'>(mongoose, 'connect')
       .mockReturnValueOnce(Promise.resolve(mongoose));
 
-    await connectDb(server);
+    await appInstance.startDB();
     expect(connectMock).toHaveBeenCalledWith(connectUrl, connectOptions);
     expect(logger.info).toHaveBeenCalledWith('🍃 MongoDB is connected');
+    expect(emitter).toHaveBeenCalledWith(events.SERVER_READY);
     connectMock.mockRestore();
   });
 
@@ -59,7 +62,7 @@ describe('Connect database with retry using MongoDB and Mongoose', () => {
       .mockRejectedValue(rejection);
 
     try {
-      await connectDb(server);
+      await appInstance.startDB();
     } catch (error) {
       expect(connecMock).toHaveBeenCalledTimes(5);
       expect(setTimeout).toHaveBeenCalledTimes(4);

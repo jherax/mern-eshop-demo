@@ -6,45 +6,57 @@ import express, {type Express} from 'express';
 import http, {type Server} from 'http';
 
 import connectDb from '../db/mongodb';
-import registerRoutes from '../routes';
+import defaultRoutes from '../routes/default';
 import logger from '../utils/logger';
 import config from './config';
 import events from './events';
 
-let app: Express;
-let server: Server;
-let started = false;
+export class NodeServer {
+  private _app: Express;
+  private _server: Server;
+  private _started = false;
 
-/**
- * The initServer() function will initialize the server (starts the cache,
- * finalizes plugin registration) but does not start the server.
- * This is what you will use in your tests. The startServer() function
- * will actually start the server. This is what you will use in our main
- * entry-point for the server.
- */
-export const initServer = async () => {
-  app = express();
-  app.use(cors<cors.CorsRequest>());
-  app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({extended: false}));
-  app.use(cookieParser());
+  constructor() {
+    this._app = express();
+    this.config();
+    this.routerConfig();
+    this._server = http.createServer(this._app);
+  }
 
-  registerRoutes(app);
-  server = http.createServer(app);
-  return server;
-};
+  private config() {
+    this._app.use(cookieParser());
+    this._app.use(cors<cors.CorsRequest>());
+    this._app.use(bodyParser.json({limit: '1mb'}));
+    this._app.use(bodyParser.urlencoded({extended: true}));
+    // Helmet: https://github.com/scottie1984/swagger-ui-express/issues/237#issuecomment-903628171
+  }
 
-export const startServer = () => {
-  if (started) return;
-  const {host, port} = config.app;
-  server.listen(port, () => {
-    logger.info(`⚡️ Express running at http://${host}:${port}`);
-    started = true;
-  });
-};
+  private routerConfig() {
+    defaultRoutes(this._app);
+    // RegisterRoutes(this.app);
+    // handleErrors(this.app);
+  }
 
-export const startDB = async () => {
-  if (started) return Promise.resolve();
-  app.on(events.SERVER_READY, startServer);
-  return connectDb(app);
-};
+  public get app(): Express {
+    return this._app;
+  }
+
+  public get server(): Server {
+    return this._server;
+  }
+
+  public startDB(): Promise<void> {
+    if (this._started) return Promise.resolve();
+    this._app.on(events.SERVER_READY, this.start.bind(this));
+    return connectDb(this._app);
+  }
+
+  public start(): void {
+    if (this._started) return;
+    const {host, port} = config.app;
+    this._server.listen(port, () => {
+      logger.info(`⚡️ Express running at http://${host}:${port}`);
+      this._started = true;
+    });
+  }
+}

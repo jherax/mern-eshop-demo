@@ -9,7 +9,7 @@ import productRoutes from './products';
  * @see https://expressjs.com/en/guide/routing.html
  */
 
-export default function registerRoutes(app: Express) {
+export default function defaultRoutes(app: Express) {
   productRoutes(app);
   healthCheckRoutes(app);
 

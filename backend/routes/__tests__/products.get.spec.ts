@@ -3,25 +3,29 @@ import {agent as request} from 'supertest';
 
 import productsMock from '../../__mocks__/products.json';
 import Product from '../../models/Product';
-import {initServer} from '../../server';
+import {NodeServer} from '../../server';
 import messages from '../../server/messages';
 
-let server: Server;
-const v1 = '/api/v1';
+const PRODUCTS_PATH = `/api/v1/products`;
 const {SUCCESSFUL, INTERNAL_SERVER_ERROR} = messages;
 
-beforeAll(async () => {
-  server = await initServer();
-});
+describe(`Testing GET "${PRODUCTS_PATH}" routes`, () => {
+  jest.spyOn(NodeServer.prototype, 'start').mockImplementation(jest.fn());
+  let appInstance: NodeServer;
+  let server: Server;
 
-afterAll(() => {
-  server.close();
-});
+  beforeAll(async () => {
+    appInstance = new NodeServer();
+    server = appInstance.server;
+  });
 
-describe(`Testing GET "${v1}/products" routes`, () => {
+  afterAll(() => {
+    server.close();
+  });
+
   it(`should respond with a list of Product`, async () => {
     mockProductFind(productsMock);
-    const reply = await request(server).get(`${v1}/products`);
+    const reply = await request(server).get(PRODUCTS_PATH);
     expect(reply.statusCode).toEqual(200);
     expect(reply.body.data).toHaveLength(2);
     expect(Product.find).toHaveBeenCalledTimes(1);
@@ -29,7 +33,7 @@ describe(`Testing GET "${v1}/products" routes`, () => {
 
   it(`should respond with an empty list`, async () => {
     mockProductFind([]);
-    const reply = await request(server).get(`${v1}/products`);
+    const reply = await request(server).get(PRODUCTS_PATH);
     const response: ServerResponse = reply.body;
     expect(response).toStrictEqual({
       statusCode: 200,
@@ -52,7 +56,7 @@ describe(`Testing GET "${v1}/products" routes`, () => {
     const spyOnMethods = mockProductFind(mokedData);
 
     const reply = await request(server).get(
-      `${v1}/products?page=${PAGE}&limit=${LIMIT}`,
+      `${PRODUCTS_PATH}?page=${PAGE}&limit=${LIMIT}`,
     );
 
     const data: IProduct[] = reply.body.data;
@@ -72,7 +76,7 @@ describe(`Testing GET "${v1}/products" routes`, () => {
       exec: jest.fn().mockRejectedValue(new Error('Database error')),
     } as never);
 
-    const reply = await request(server).get(`${v1}/products`);
+    const reply = await request(server).get(PRODUCTS_PATH);
     const response: ServerResponse = reply.body;
 
     expect(response.statusCode).toBe(500);

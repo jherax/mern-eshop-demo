@@ -1,15 +1,8 @@
-import {initServer, startDB, startServer} from './server';
+import {NodeServer} from './server';
 import events from './server/events';
 import logger from './utils/logger';
 
-/**
- * The initServer() function will initialize the server (starts the cache,
- * finalizes plugin registration) but does not start the server.
- * This is what you will use in your tests. The startServer() function
- * will actually start the server. This is what you will use in our main
- * entry-point for the server.
- */
-initServer().then(startDB).then(startServer);
+new NodeServer().startDB();
 
 // Catch unhandling rejected promises
 process.on(events.UNHANDLED_REJECTION, reason => {

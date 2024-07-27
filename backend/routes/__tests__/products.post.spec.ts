@@ -3,15 +3,18 @@ import {agent as request} from 'supertest';
 
 import * as dbMock from '../../__mocks__/mongo.db';
 import Product from '../../models/Product';
-import {initServer} from '../../server';
+import {NodeServer} from '../../server';
 import messages from '../../server/messages';
 
-let server: Server;
-const v1 = '/api/v1';
+const PRODUCTS_PATH = `/api/v1/products`;
 const {SUCCESSFUL_ADDED, INCOMPLETE_REQUEST, INTERNAL_SERVER_ERROR} = messages;
 
-describe(`Testing POST "${v1}/products" routes`, () => {
+describe(`Testing POST "${PRODUCTS_PATH}" routes`, () => {
+  jest.spyOn(NodeServer.prototype, 'start').mockImplementation(jest.fn());
   const ProductSave = jest.spyOn(Product.prototype, 'save');
+  let appInstance: NodeServer;
+  let server: Server;
+
   const PAYLOAD: IProduct = {
     name: 'Mortal Kombat 3',
     size: 'S',
@@ -21,7 +24,8 @@ describe(`Testing POST "${v1}/products" routes`, () => {
 
   beforeAll(async () => {
     await dbMock.setUp();
-    server = await initServer();
+    appInstance = new NodeServer();
+    server = appInstance.server;
   });
 
   afterEach(async () => {
@@ -37,7 +41,7 @@ describe(`Testing POST "${v1}/products" routes`, () => {
   it(`should respond with the Product entity created`, async () => {
     // odd fix for Jest open handle error
     await Promise.resolve(process.nextTick(Boolean));
-    const reply = await request(server).post(`${v1}/products`).send(PAYLOAD);
+    const reply = await request(server).post(PRODUCTS_PATH).send(PAYLOAD);
     const outData: IProduct = reply.body.data;
 
     expect(reply.statusCode).toEqual(200);
@@ -51,7 +55,7 @@ describe(`Testing POST "${v1}/products" routes`, () => {
   it(`should return a 422 error when the body parameters are not valid`, async () => {
     // odd fix for Jest open handle error
     await Promise.resolve(process.nextTick(Boolean));
-    const reply = await request(server).post(`${v1}/products`).send({});
+    const reply = await request(server).post(PRODUCTS_PATH).send({});
     const response: ServerResponse = reply.body;
     const error = response.error;
 
@@ -67,7 +71,7 @@ describe(`Testing POST "${v1}/products" routes`, () => {
 
     // odd fix for Jest open handle error
     await Promise.resolve(process.nextTick(Boolean));
-    const reply = await request(server).post(`${v1}/products`).send(PAYLOAD);
+    const reply = await request(server).post(PRODUCTS_PATH).send(PAYLOAD);
     const response: ServerResponse = reply.body;
 
     expect(response.statusCode).toBe(500);
