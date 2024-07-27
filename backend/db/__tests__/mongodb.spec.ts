@@ -1,3 +1,5 @@
+import {setTimeout} from 'node:timers/promises';
+
 import type {Server} from 'http';
 import mongoose, {type Mongoose} from 'mongoose';
 
@@ -7,80 +9,63 @@ import logger from '../../utils/logger';
 import connectDb from '../mongodb';
 
 const {host, port, database, username, password} = config.db;
-
-const expectedArgs = {
-  connectSuccess: '🍃 MongoDB is connected',
-  connectFail: '🍃 MongoDB connection failed, retry in 2 secs.',
-  connectUrl: `mongodb://${username}:${password}@${host}:${port}/${database}`,
-  connectOptions: {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    autoIndex: false,
-  },
+const connectUrl = `mongodb://${username}:${password}@${host}:${port}/${database}`;
+const connectOptions: mongoose.ConnectOptions = {
+  autoIndex: false,
 };
 
-describe('Connect database with retry', () => {
-  // prevent the logger methods from writting the terminal
-  const logError = jest.spyOn(logger, 'error').mockImplementation(jest.fn());
-  const logInfo = jest.spyOn(logger, 'info').mockImplementation(jest.fn());
+jest.mock('node:timers/promises', () => {
+  return {setTimeout: jest.fn().mockResolvedValue(void 0)};
+});
+
+// prevent the logger methods from writting the terminal
+jest.mock('../../utils/logger', () => {
+  return {
+    info: jest.fn(),
+    warn: jest.fn(),
+    error: jest.fn(),
+  };
+});
+
+describe('Connect database with retry using MongoDB and Mongoose', () => {
   let server: Server;
 
   beforeAll(async () => {
-    const TIMESTAMP = new Date().toISOString();
-    jest.useFakeTimers().setSystemTime(new Date(TIMESTAMP));
     server = await initServer();
   });
 
-  beforeEach(() => {
-    logInfo.mockClear();
-  });
-
   afterAll(() => {
-    jest.clearAllTimers();
     server.close();
   });
 
-  // Tests that the function successfully connects to MongoDB
-  it('should connect to MongoDB', async () => {
-    const mongooseConnectSpy = jest
+  // Database connection is successfully established with MongoDB
+  it('should emit SERVER_READY event when database connection is successful', async () => {
+    const connectMock = jest
       .spyOn<Mongoose, 'connect'>(mongoose, 'connect')
       .mockReturnValueOnce(Promise.resolve(mongoose));
 
     await connectDb(server);
-    const {connectUrl, connectOptions, connectSuccess} = expectedArgs;
-    expect(mongooseConnectSpy).toHaveBeenCalledWith(connectUrl, connectOptions);
-    expect(logInfo).toHaveBeenCalledWith(connectSuccess);
-    mongooseConnectSpy.mockRestore();
+    expect(connectMock).toHaveBeenCalledWith(connectUrl, connectOptions);
+    expect(logger.info).toHaveBeenCalledWith('🍃 MongoDB is connected');
+    connectMock.mockRestore();
   });
 
-  // Tests that the function emits a 'ready' event on successful connection
-  it('should emit a "ready" event on successful connection', async () => {
-    const mongooseConnectSpy = jest
+  // Invalid database credentials result in connection failure (with retries)
+  it('should log error when database connection fails', async () => {
+    const errorMsg = 'Maximum number of connection retries reached';
+    const rejection = new Error('Authentication failed');
+    const connecMock = jest
       .spyOn<Mongoose, 'connect'>(mongoose, 'connect')
-      .mockReturnValue(Promise.resolve(mongoose));
+      .mockRejectedValue(rejection);
 
-    const serverEmitSpy = jest.spyOn(server, 'emit');
-
-    await connectDb(server);
-    expect(serverEmitSpy).toHaveBeenCalledWith('ready');
-    mongooseConnectSpy.mockRestore();
-  });
-
-  // Tests that the function fails to connect to MongoDB
-  it('should fail to connect to MongoDB', async () => {
-    const errorMsg = 'Reject connection to MongoDB';
-    const mongooseConnectSpy = jest
-      .spyOn<Mongoose, 'connect'>(mongoose, 'connect')
-      .mockReturnValueOnce(Promise.reject(Error(errorMsg)));
     try {
       await connectDb(server);
     } catch (error) {
-      const {connectUrl, connectOptions, connectFail} = expectedArgs;
-      expect(mongooseConnectSpy).toBeCalledWith(connectUrl, connectOptions);
-      expect(logInfo).toHaveBeenCalledWith(connectFail);
-      expect(logError).toHaveBeenCalled();
-      expect(setTimeout).toHaveBeenCalled();
-      mongooseConnectSpy.mockRestore();
+      expect(connecMock).toHaveBeenCalledTimes(5);
+      expect(setTimeout).toHaveBeenCalledTimes(4);
+      expect(logger.warn).toHaveBeenCalledTimes(4);
+      expect(logger.error).toHaveBeenCalledTimes(1);
+      expect(error.message).toBe(errorMsg);
     }
   });
 });

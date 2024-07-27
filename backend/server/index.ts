@@ -1,3 +1,4 @@
+/* eslint-disable curly */
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
@@ -8,17 +9,16 @@ import connectDb from '../db/mongodb';
 import registerRoutes from '../routes';
 import logger from '../utils/logger';
 import config from './config';
+import events from './events';
 
 let app: Express;
 let server: Server;
-const appPort = config.app.port;
-const appHost = config.app.host;
+let started = false;
 
 /**
- * Do not call, initServer() and startServer(). This will allow you to initialize and start
- * the server from different files. The initServer() function will initialize the
- * server (starts the caches, finalizes plugin registration) but does not start
- * the server. This is what you will use in your tests. The startServer() function
+ * The initServer() function will initialize the server (starts the cache,
+ * finalizes plugin registration) but does not start the server.
+ * This is what you will use in your tests. The startServer() function
  * will actually start the server. This is what you will use in our main
  * entry-point for the server.
  */
@@ -34,15 +34,17 @@ export const initServer = async () => {
   return server;
 };
 
-export const startServer = async () => {
-  server.listen(appPort, () => {
-    logger.info(`⚡️ Express running at http://${appHost}:${appPort}`);
+export const startServer = () => {
+  if (started) return;
+  const {host, port} = config.app;
+  server.listen(port, () => {
+    logger.info(`⚡️ Express running at http://${host}:${port}`);
+    started = true;
   });
-  return server;
 };
 
-export const initDb = async () => {
-  app.on('ready', startServer);
-  connectDb(app);
-  return server;
+export const startDB = async () => {
+  if (started) return Promise.resolve();
+  app.on(events.SERVER_READY, startServer);
+  return connectDb(app);
 };
