@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express, {type Express} from 'express';
+import helmet from 'helmet';
 import http, {type Server} from 'http';
 
 import connectDb from '../db/mongodb';
@@ -28,7 +29,13 @@ export class NodeServer {
     this._app.use(cors<cors.CorsRequest>());
     this._app.use(bodyParser.json({limit: '1mb'}));
     this._app.use(bodyParser.urlencoded({extended: true}));
-    // Helmet: https://github.com/scottie1984/swagger-ui-express/issues/237#issuecomment-903628171
+    // https://blog.logrocket.com/using-helmet-node-js-secure-application/
+    // https://helmetjs.github.io/#cross-origin-resource-policy
+    this._app.use(
+      helmet({
+        crossOriginResourcePolicy: {policy: 'cross-origin'},
+      }),
+    );
   }
 
   private routerConfig() {
